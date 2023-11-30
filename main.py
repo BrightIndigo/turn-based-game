@@ -3,7 +3,6 @@ import sys
 
 pygame.init()
 
-# Use consistent screen dimensions
 screen_width = 1000
 screen_height = 1000
 screen = pygame.display.set_mode((screen_width, screen_height))
@@ -12,7 +11,6 @@ running = True
 dt = 0
 brick_wall = pygame.image.load("brick_wall.png")
 
-# Use a consistent unit for the grid (screen_height/10)
 grid_unit = screen_height // 10
 
 border_top = pygame.Rect(0, 0, screen_width, 5)
@@ -41,27 +39,29 @@ wall18 = pygame.Rect(grid_unit * 9, 0, 5, screen_height)
 
 player_width = 50
 player_height = 50
-player_x = (grid_unit // 2)-(player_width/2)
-player_y = (grid_unit // 2)-(player_height/2)
+player_x = (grid_unit / 2)-(player_width/2)
+player_y = (grid_unit / 2)-(player_height/2)
 player = pygame.Rect(player_x, player_y, player_width, player_height)
 
-# Draw the brick wall once before the main loop
-screen.blit(brick_wall, (0, 0))
+
 
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+    print("x:", player.x, "y:", player.y)
+    screen.blit(brick_wall, (0, 0))
+    pygame.draw.rect(screen, (255, 0, 0), player)
 
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_UP]:
-        player_y -= 5
-    if keys[pygame.K_DOWN]:
-        player_y += 5
-    if keys[pygame.K_LEFT]:
-        player_x -= 5
-    if keys[pygame.K_RIGHT]:
-        player_x += 5
+    if keys[pygame.K_UP] and player.y > 25:
+        player.y -= 100
+    if keys[pygame.K_DOWN] and player.y < 925:
+        player.y += 100
+    if keys[pygame.K_LEFT] and player.x > 25:
+        player.x -= 100
+    if keys[pygame.K_RIGHT] and player.x < 925:
+        player.x += 100
 
 
 
@@ -88,14 +88,10 @@ while running:
     pygame.draw.rect(screen, "black", wall16)
     pygame.draw.rect(screen, "black", wall17)
     pygame.draw.rect(screen, "black", wall18)
-    pygame.draw.rect(screen, (255, 0, 0), player)
-
-
-
 
 
     pygame.display.flip()
-    dt = clock.tick(60) / 1000
+    dt = clock.tick(30) / 1000
 
 pygame.quit()
 sys.exit()
