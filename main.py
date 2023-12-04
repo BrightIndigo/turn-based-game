@@ -10,9 +10,11 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 clock = pygame.time.Clock()
 running = True
 dt = 0
-brick_wall = pygame.image.load("brick_wall.png")
+brick_wall = pygame.image.load("background.jpg")
 font = pygame.font.Font(None, 36)
-grid_unit = screen_height // 10
+grid_unit = screen_height / 10
+
+
 
 #borders
 border_top = pygame.Rect(0, 0, screen_width, 5)
@@ -41,6 +43,24 @@ wall17 = pygame.Rect(grid_unit * 8, 0, 5, screen_height)
 wall18 = pygame.Rect(grid_unit * 9, 0, 5, screen_height)
 
 #player
+class Player():
+    def __init__(self):
+        self.hp = 100
+        self.dmg = 1
+        self.armor = 0
+        self.items = []
+        self.item_1_added = False
+    
+    def item_1(self):
+        if self.item_1_added == False:
+            self.hp += 10
+            self.dmg += self.dmg
+            self.items.append("Magic sword")
+            print(f"ITEMS: {self.items}")
+            self.item_1_added = True
+
+Player = Player()
+
 player_width = 50
 player_height = 50
 player_x = (grid_unit / 2)-(player_width/2)
@@ -49,9 +69,9 @@ player = pygame.Rect(player_x, player_y, player_width, player_height)
 player_turn = True
 
 #area to explore
-area_a = 100
-area_x = ((grid_unit / 2)-(area_a/2))
-area_y = ((grid_unit / 2)-(area_a/2))
+area_a = 100+5
+area_x = ((grid_unit / 2)-(area_a/2))+2.5
+area_y = ((grid_unit / 2)-(area_a/2))+2.5
 #first row
 unknown_area1 = pygame.Rect(area_x+100, area_y, area_a, area_a)
 unknown_area2 = pygame.Rect(area_x+200, area_y, area_a, area_a)
@@ -99,6 +119,30 @@ r4_unknown_area8 = pygame.Rect(area_x+700, area_y+300, area_a, area_a)
 r4_unknown_area9 = pygame.Rect(area_x+800, area_y+300, area_a, area_a)
 r4_unknown_area10 = pygame.Rect(area_x+900, area_y+300, area_a, area_a)
 
+class Generate_map:
+    def __init__(self):
+        self.room_a = 5
+        self.room_b = 4
+        self.hallway = 6
+
+Generate_map = Generate_map()
+
+rand_a = random.randint(1, Generate_map.room_a)
+rand_b = random.randint(1, Generate_map.room_b)
+rand_x = ((random.randint(2, 10) * 100)-100)
+rand_y = ((random.randint(2, 10) * 100)-100)
+rand_col = random.randint(2, 10)
+rand_row = random.randint(2, 10)
+room = []
+room.append(pygame.Rect(area_x+rand_x, area_y+rand_y, area_a, area_a))
+while rand_col > 0:
+    room.append(pygame.Rect((area_x+rand_x)+(rand_col*100), area_y+rand_y, area_a, area_a))
+    rand_col -= 1
+
+while rand_row > 0:
+    room.append(pygame.Rect(area_x+rand_x, (area_y+rand_y)+(rand_row*100), area_a, area_a))
+    rand_row -= 1
+
 
 item_a = 40
 item_x = (grid_unit / 2)-(item_a/2)
@@ -122,7 +166,8 @@ def print_coords():
     pygame.display.set_caption(f"x: {player.x} y: {player.y}")
 
 def item_1_action():
-    print("COLLISION!!!")
+    Player.item_1()
+
 
 while running:
     for event in pygame.event.get():
@@ -218,7 +263,11 @@ while running:
     pygame.draw.rect(screen, "black", r4_unknown_area9)
     pygame.draw.rect(screen, "black", r4_unknown_area10)
 
-    pygame.draw.rect(screen, "purple", item_1)
+    if Player.item_1_added == False:
+        draw_item_1 = pygame.draw.rect(screen, "purple", item_1)
+
+    for i in room:
+        draw_room = pygame.draw.rect(screen, "blue", i)
 
     pygame.display.flip()
     dt = clock.tick(30) / 1000
