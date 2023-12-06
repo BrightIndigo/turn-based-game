@@ -45,19 +45,12 @@ wall18 = pygame.Rect(grid_unit * 9, 0, 5, screen_height)
 #player
 class Player():
     def __init__(self):
+        self.points = 0
         self.hp = 100
-        self.dmg = 1
-        self.armor = 0
-        self.items = []
-        self.item_1_added = False
-    
-    def item_1(self):
-        if self.item_1_added == False:
-            self.hp += 10
-            self.dmg += self.dmg
-            self.items.append("Magic sword")
-            print(f"ITEMS: {self.items}")
-            self.item_1_added = True
+        self.row = 1
+        self.col = 1
+        self.unknown_area_move_r = 25
+        self.unknown_area_move_d = 25
 
 Player = Player()
 
@@ -72,6 +65,8 @@ player_turn = True
 area_a = 100+5
 area_x = ((grid_unit / 2)-(area_a/2))+2.5
 area_y = ((grid_unit / 2)-(area_a/2))+2.5
+
+
 #first row
 unknown_area1 = pygame.Rect(area_x+100, area_y, area_a, area_a)
 unknown_area2 = pygame.Rect(area_x+200, area_y, area_a, area_a)
@@ -82,6 +77,7 @@ unknown_area6 = pygame.Rect(area_x+600, area_y, area_a, area_a)
 unknown_area7 = pygame.Rect(area_x+700, area_y, area_a, area_a)
 unknown_area8 = pygame.Rect(area_x+800, area_y, area_a, area_a)
 unknown_area9 = pygame.Rect(area_x+900, area_y, area_a, area_a)
+first_unknown_row = [unknown_area1, unknown_area2, unknown_area3, unknown_area4, unknown_area5, unknown_area6, unknown_area7, unknown_area8, unknown_area9]
 
 #second row
 r2_unknown_area1 = pygame.Rect(area_x, area_y+100, area_a, area_a)
@@ -94,7 +90,7 @@ r2_unknown_area7 = pygame.Rect(area_x+600, area_y+100, area_a, area_a)
 r2_unknown_area8 = pygame.Rect(area_x+700, area_y+100, area_a, area_a)
 r2_unknown_area9 = pygame.Rect(area_x+800, area_y+100, area_a, area_a)
 r2_unknown_area10 = pygame.Rect(area_x+900, area_y+100, area_a, area_a)
-
+r2_unknown_row = [r2_unknown_area1, r2_unknown_area2, r2_unknown_area3, r2_unknown_area4, r2_unknown_area5, r2_unknown_area6, r2_unknown_area7, r2_unknown_area8, r2_unknown_area9, r2_unknown_area10]
 #third row
 r3_unknown_area1 = pygame.Rect(area_x, area_y+200, area_a, area_a)
 r3_unknown_area2 = pygame.Rect(area_x+100, area_y+200, area_a, area_a)
@@ -106,7 +102,7 @@ r3_unknown_area7 = pygame.Rect(area_x+600, area_y+200, area_a, area_a)
 r3_unknown_area8 = pygame.Rect(area_x+700, area_y+200, area_a, area_a)
 r3_unknown_area9 = pygame.Rect(area_x+800, area_y+200, area_a, area_a)
 r3_unknown_area10 = pygame.Rect(area_x+900, area_y+200, area_a, area_a)
-
+r3_unknown_row = [r3_unknown_area1, r3_unknown_area2, r3_unknown_area3, r3_unknown_area4, r3_unknown_area5, r3_unknown_area6, r3_unknown_area7, r3_unknown_area8, r3_unknown_area9, r3_unknown_area10]
 #fourth row
 r4_unknown_area1 = pygame.Rect(area_x, area_y+300, area_a, area_a)
 r4_unknown_area2 = pygame.Rect(area_x+100, area_y+300, area_a, area_a)
@@ -118,30 +114,79 @@ r4_unknown_area7 = pygame.Rect(area_x+600, area_y+300, area_a, area_a)
 r4_unknown_area8 = pygame.Rect(area_x+700, area_y+300, area_a, area_a)
 r4_unknown_area9 = pygame.Rect(area_x+800, area_y+300, area_a, area_a)
 r4_unknown_area10 = pygame.Rect(area_x+900, area_y+300, area_a, area_a)
+r4_unknown_row = [r4_unknown_area1, r4_unknown_area2, r4_unknown_area3, r4_unknown_area4, r4_unknown_area5, r4_unknown_area6, r4_unknown_area7, r4_unknown_area8, r4_unknown_area9, r4_unknown_area10]
 
-class Generate_map:
-    def __init__(self):
-        self.room_a = 5
-        self.room_b = 4
-        self.hallway = 6
+r5_unknown_area1 = pygame.Rect(area_x, area_y+400, area_a, area_a)
+r5_unknown_area2 = pygame.Rect(area_x+100, area_y+400, area_a, area_a)
+r5_unknown_area3 = pygame.Rect(area_x+200, area_y+400, area_a, area_a)
+r5_unknown_area4 = pygame.Rect(area_x+300, area_y+400, area_a, area_a)
+r5_unknown_area5 = pygame.Rect(area_x+400, area_y+400, area_a, area_a)
+r5_unknown_area6 = pygame.Rect(area_x+500, area_y+400, area_a, area_a)
+r5_unknown_area7 = pygame.Rect(area_x+600, area_y+400, area_a, area_a)
+r5_unknown_area8 = pygame.Rect(area_x+700, area_y+400, area_a, area_a)
+r5_unknown_area9 = pygame.Rect(area_x+800, area_y+400, area_a, area_a)
+r5_unknown_area10 = pygame.Rect(area_x+900, area_y+400, area_a, area_a)
+r5_unknown_row = [r5_unknown_area1, r5_unknown_area2, r5_unknown_area3, r5_unknown_area4, r5_unknown_area5, r5_unknown_area6, r5_unknown_area7, r5_unknown_area8, r5_unknown_area9, r5_unknown_area10]
 
-Generate_map = Generate_map()
+r6_unknown_area1 = pygame.Rect(area_x, area_y+500, area_a, area_a)
+r6_unknown_area2 = pygame.Rect(area_x+100, area_y+500, area_a, area_a)
+r6_unknown_area3 = pygame.Rect(area_x+200, area_y+500, area_a, area_a)
+r6_unknown_area4 = pygame.Rect(area_x+300, area_y+500, area_a, area_a)
+r6_unknown_area5 = pygame.Rect(area_x+400, area_y+500, area_a, area_a)
+r6_unknown_area6 = pygame.Rect(area_x+500, area_y+500, area_a, area_a)
+r6_unknown_area7 = pygame.Rect(area_x+600, area_y+500, area_a, area_a)
+r6_unknown_area8 = pygame.Rect(area_x+700, area_y+500, area_a, area_a)
+r6_unknown_area9 = pygame.Rect(area_x+800, area_y+500, area_a, area_a)
+r6_unknown_area10 = pygame.Rect(area_x+900, area_y+500, area_a, area_a)
+r6_unknown_row = [r6_unknown_area1, r6_unknown_area2, r6_unknown_area3, r6_unknown_area4, r6_unknown_area5, r6_unknown_area6, r6_unknown_area7, r6_unknown_area8, r6_unknown_area9, r6_unknown_area10]
 
-rand_a = random.randint(1, Generate_map.room_a)
-rand_b = random.randint(1, Generate_map.room_b)
-rand_x = ((random.randint(2, 10) * 100)-100)
-rand_y = ((random.randint(2, 10) * 100)-100)
-rand_col = random.randint(2, 10)
-rand_row = random.randint(2, 10)
-room = []
-room.append(pygame.Rect(area_x+rand_x, area_y+rand_y, area_a, area_a))
-while rand_col > 0:
-    room.append(pygame.Rect((area_x+rand_x)+(rand_col*100), area_y+rand_y, area_a, area_a))
-    rand_col -= 1
+r7_unknown_area1 = pygame.Rect(area_x, area_y+600, area_a, area_a)
+r7_unknown_area2 = pygame.Rect(area_x+100, area_y+600, area_a, area_a)
+r7_unknown_area3 = pygame.Rect(area_x+200, area_y+600, area_a, area_a)
+r7_unknown_area4 = pygame.Rect(area_x+300, area_y+600, area_a, area_a)
+r7_unknown_area5 = pygame.Rect(area_x+400, area_y+600, area_a, area_a)
+r7_unknown_area6 = pygame.Rect(area_x+500, area_y+600, area_a, area_a)
+r7_unknown_area7 = pygame.Rect(area_x+600, area_y+600, area_a, area_a)
+r7_unknown_area8 = pygame.Rect(area_x+700, area_y+600, area_a, area_a)
+r7_unknown_area9 = pygame.Rect(area_x+800, area_y+600, area_a, area_a)
+r7_unknown_area10 = pygame.Rect(area_x+900, area_y+600, area_a, area_a)
+r7_unknown_row = [r7_unknown_area1, r7_unknown_area2, r7_unknown_area3, r7_unknown_area4, r7_unknown_area5, r7_unknown_area6, r7_unknown_area7, r7_unknown_area8, r7_unknown_area9, r7_unknown_area10]
 
-while rand_row > 0:
-    room.append(pygame.Rect(area_x+rand_x, (area_y+rand_y)+(rand_row*100), area_a, area_a))
-    rand_row -= 1
+r8_unknown_area1 = pygame.Rect(area_x, area_y+700, area_a, area_a)
+r8_unknown_area2 = pygame.Rect(area_x+100, area_y+700, area_a, area_a)
+r8_unknown_area3 = pygame.Rect(area_x+200, area_y+700, area_a, area_a)
+r8_unknown_area4 = pygame.Rect(area_x+300, area_y+700, area_a, area_a)
+r8_unknown_area5 = pygame.Rect(area_x+400, area_y+700, area_a, area_a)
+r8_unknown_area6 = pygame.Rect(area_x+500, area_y+700, area_a, area_a)
+r8_unknown_area7 = pygame.Rect(area_x+600, area_y+700, area_a, area_a)
+r8_unknown_area8 = pygame.Rect(area_x+700, area_y+700, area_a, area_a)
+r8_unknown_area9 = pygame.Rect(area_x+800, area_y+700, area_a, area_a)
+r8_unknown_area10 = pygame.Rect(area_x+900, area_y+700, area_a, area_a)
+r8_unknown_row = [r8_unknown_area1, r8_unknown_area2, r8_unknown_area3, r8_unknown_area4, r8_unknown_area5, r8_unknown_area6, r8_unknown_area7, r8_unknown_area8, r8_unknown_area9, r8_unknown_area10]
+
+r9_unknown_area1 = pygame.Rect(area_x, area_y+800, area_a, area_a)
+r9_unknown_area2 = pygame.Rect(area_x+100, area_y+800, area_a, area_a)
+r9_unknown_area3 = pygame.Rect(area_x+200, area_y+800, area_a, area_a)
+r9_unknown_area4 = pygame.Rect(area_x+300, area_y+800, area_a, area_a)
+r9_unknown_area5 = pygame.Rect(area_x+400, area_y+800, area_a, area_a)
+r9_unknown_area6 = pygame.Rect(area_x+500, area_y+800, area_a, area_a)
+r9_unknown_area7 = pygame.Rect(area_x+600, area_y+800, area_a, area_a)
+r9_unknown_area8 = pygame.Rect(area_x+700, area_y+800, area_a, area_a)
+r9_unknown_area9 = pygame.Rect(area_x+800, area_y+800, area_a, area_a)
+r9_unknown_area10 = pygame.Rect(area_x+900, area_y+800, area_a, area_a)
+r9_unknown_row = [r9_unknown_area1, r9_unknown_area2, r9_unknown_area3, r9_unknown_area4, r9_unknown_area5, r9_unknown_area6, r9_unknown_area7, r9_unknown_area8, r9_unknown_area9, r9_unknown_area10]
+
+r10_unknown_area1 = pygame.Rect(area_x, area_y+900, area_a, area_a)
+r10_unknown_area2 = pygame.Rect(area_x+100, area_y+900, area_a, area_a)
+r10_unknown_area3 = pygame.Rect(area_x+200, area_y+900, area_a, area_a)
+r10_unknown_area4 = pygame.Rect(area_x+300, area_y+900, area_a, area_a)
+r10_unknown_area5 = pygame.Rect(area_x+400, area_y+900, area_a, area_a)
+r10_unknown_area6 = pygame.Rect(area_x+500, area_y+900, area_a, area_a)
+r10_unknown_area7 = pygame.Rect(area_x+600, area_y+900, area_a, area_a)
+r10_unknown_area8 = pygame.Rect(area_x+700, area_y+900, area_a, area_a)
+r10_unknown_area9 = pygame.Rect(area_x+800, area_y+900, area_a, area_a)
+r10_unknown_area10 = pygame.Rect(area_x+900, area_y+900, area_a, area_a)
+r10_unknown_row = [r10_unknown_area1, r10_unknown_area2, r10_unknown_area3, r10_unknown_area4, r10_unknown_area5, r10_unknown_area6, r10_unknown_area7, r10_unknown_area8, r10_unknown_area9, r10_unknown_area10]
 
 
 item_a = 40
@@ -158,43 +203,145 @@ item_1_x = (item_x + item_pos_x)
 item_1_y = (item_y + item_pos_y)
 
 item_1 = pygame.Rect(item_1_x, item_1_y, item_a, item_a)
+item_2 = pygame.Rect(item_1_x, item_1_y, item_a, item_a)
+item_3 = pygame.Rect(item_1_x, item_1_y, item_a, item_a)
+item_4 = pygame.Rect(item_1_x, item_1_y, item_a, item_a)
 
 def computers_turn():
-    pass
+    
+    direction = random.randint(1, 4)
+    if direction == 1 and item_1.x < 925:
+        item_1.x += 100
+    elif direction == 2 and item_1.x > 30:
+        item_1.x -= 100
+    elif direction == 3 and item_1.y < 925:
+        item_1.y += 100
+    elif direction == 4 and item_1.y > 30:
+        item_1.y -= 100
+    
+    direction2 = random.randint(1, 4)
+    if direction2 == 1 and item_2.x < 925:
+        item_2.x += 100
+    elif direction2 == 2 and item_2.x > 30:
+        item_2.x -= 100
+    elif direction2 == 3 and item_2.y < 925:
+        item_2.y += 100
+    elif direction2 == 4 and item_2.y > 30:
+        item_2.y -= 100
+    
+    direction3 = random.randint(1, 4)
+    if direction3 == 1 and item_3.x < 925:
+        item_3.x += 100
+    elif direction3 == 2 and item_3.x > 30:
+        item_3.x -= 100
+    elif direction3 == 3 and item_3.y < 925:
+        item_3.y += 100
+    elif direction3 == 4 and item_3.y > 30:
+        item_3.y -= 100
+
+    direction4 = random.randint(1, 4)
+    if direction4 == 1 and item_4.x < 925:
+        item_4.x += 100
+    elif direction4 == 2 and item_4.x > 30:
+        item_4.x -= 100
+    elif direction4 == 3 and item_4.y < 925:
+        item_4.y += 100
+    elif direction4 == 4 and item_4.y > 30:
+        item_4.y -= 100
+
+    player_turn = True
 
 def print_coords():
-    pygame.display.set_caption(f"x: {player.x} y: {player.y}")
+    pygame.display.set_caption(f"x: {player.x} y: {player.y} row: {Player.row} col: {Player.col}")
 
 def item_1_action():
     Player.item_1()
 
 
-while running:
+while running and Player.hp > 0:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
     screen.blit(brick_wall, (0, 0))
-    pygame.draw.rect(screen, (255, 0, 0), player)
+    
 
     if player_turn == True:
         print_coords()
         keys = pygame.key.get_pressed()
+        pressed = False
+
         if keys[pygame.K_UP] and player.y > 25:
             player.y -= 100
-        if keys[pygame.K_DOWN] and player.y < 925:
+            Player.row -= 1
+            pressed = True
+        if keys[pygame.K_DOWN] and player.y < Player.unknown_area_move_d:
             player.y += 100
+            Player.row += 1
+            pressed = True
         if keys[pygame.K_LEFT] and player.x > 25:
             player.x -= 100
-        if keys[pygame.K_RIGHT] and player.x < 925:
+            Player.col -= 1
+            pressed = True
+        if keys[pygame.K_RIGHT] and player.x < Player.unknown_area_move_r:
             player.x += 100
-        player_turn = False
-    else:
+            Player.col += 1
+            pressed = True
+        if keys[pygame.K_SPACE]:
+            if Player.row == 1 and Player.col == 1:
+                first_unknown_row[Player.col-1] = pygame.Rect(0,0,0,0)
+                r2_unknown_row[Player.col-1] = pygame.Rect(0,0,0,0)
+                r2_unknown_row[Player.col] = pygame.Rect(0,0,0,0)
+                Player.unknown_area_move_r += 105
+                Player.unknown_area_move_d += 105
+            elif Player.row == 2 and Player.col == 1:
+                r2_unknown_row[Player.col] = pygame.Rect(0,0,0,0)
+                r3_unknown_row[Player.col-1] = pygame.Rect(0,0,0,0)
+                r3_unknown_row[Player.col] = pygame.Rect(0,0,0,0)
+                Player.unknown_area_move_d += 105
+            elif Player.row == 3 and Player.col == 1:
+                r4_unknown_row[Player.col-1] = pygame.Rect(0,0,0,0)
+                r4_unknown_row[Player.col] = pygame.Rect(0,0,0,0)
+                Player.unknown_area_move_d += 105
+            elif Player.row == 4 and Player.col == 1:
+                r5_unknown_row[Player.col-1] = pygame.Rect(0,0,0,0)
+                r5_unknown_row[Player.col] = pygame.Rect(0,0,0,0)
+                Player.unknown_area_move_d += 105
+            elif Player.row == 5 and Player.col == 1:
+                r6_unknown_row[Player.col-1] = pygame.Rect(0,0,0,0)
+                r6_unknown_row[Player.col] = pygame.Rect(0,0,0,0)
+                Player.unknown_area_move_d += 105
+            elif Player.row == 6 and Player.col == 1:
+                r7_unknown_row[Player.col-1] = pygame.Rect(0,0,0,0)
+                r7_unknown_row[Player.col] = pygame.Rect(0,0,0,0)
+                Player.unknown_area_move_d += 105
+            elif Player.row == 7 and Player.col == 1:
+                r8_unknown_row[Player.col-1] = pygame.Rect(0,0,0,0)
+                r8_unknown_row[Player.col] = pygame.Rect(0,0,0,0)
+                Player.unknown_area_move_d += 105
+            elif Player.row == 8 and Player.col == 1:
+                r9_unknown_row[Player.col-1] = pygame.Rect(0,0,0,0)
+                r9_unknown_row[Player.col] = pygame.Rect(0,0,0,0)
+                Player.unknown_area_move_d += 105
+            elif Player.row == 9 and Player.col == 1:
+                r10_unknown_row[Player.col-1] = pygame.Rect(0,0,0,0)
+                r10_unknown_row[Player.col] = pygame.Rect(0,0,0,0)
+                Player.unknown_area_move_d += 105
+            elif Player.row == 1 and Player.col == 2:
+                first_unknown_row[1] = pygame.Rect(0,0,0,0)
+                Player.unknown_area_move_r += 105
+                r2_unknown_row[1] = pygame.Rect(0,0,0,0)
+            pressed = True
+
+        if pressed == True:
+            player_turn = False
+
+    elif player_turn == False:
         computers_turn()
 
         player_turn = True
 
-    if player.colliderect(item_1):
-        item_1_action()
+    if player.colliderect(item_1) or player.colliderect(item_2) or player.colliderect(item_3) or player.colliderect(item_4): 
+        sys.exit()
 
     pygame.draw.rect(screen, (200, 200, 200), border_top)
     pygame.draw.rect(screen, (200, 200, 200), border_left)
@@ -220,54 +367,42 @@ while running:
     pygame.draw.rect(screen, "black", wall17)
     pygame.draw.rect(screen, "black", wall18)
 
-    pygame.draw.rect(screen, "black", unknown_area1)
-    pygame.draw.rect(screen, "black", unknown_area2)
-    pygame.draw.rect(screen, "black", unknown_area3)
-    pygame.draw.rect(screen, "black", unknown_area4)
-    pygame.draw.rect(screen, "black", unknown_area5)
-    pygame.draw.rect(screen, "black", unknown_area6)
-    pygame.draw.rect(screen, "black", unknown_area7)
-    pygame.draw.rect(screen, "black", unknown_area8)
-    pygame.draw.rect(screen, "black", unknown_area9)
+    for i in first_unknown_row:
+        pygame.draw.rect(screen, "black", i)
 
-    pygame.draw.rect(screen, "black", r2_unknown_area1)
-    pygame.draw.rect(screen, "black", r2_unknown_area2)
-    pygame.draw.rect(screen, "black", r2_unknown_area3)
-    pygame.draw.rect(screen, "black", r2_unknown_area4)
-    pygame.draw.rect(screen, "black", r2_unknown_area5)
-    pygame.draw.rect(screen, "black", r2_unknown_area6)
-    pygame.draw.rect(screen, "black", r2_unknown_area7)
-    pygame.draw.rect(screen, "black", r2_unknown_area8)
-    pygame.draw.rect(screen, "black", r2_unknown_area9)
-    pygame.draw.rect(screen, "black", r2_unknown_area10)
+    for i in range(0, 10):
+        pygame.draw.rect(screen, "black", r2_unknown_row[i])
 
-    pygame.draw.rect(screen, "black", r3_unknown_area1)
-    pygame.draw.rect(screen, "black", r3_unknown_area2)
-    pygame.draw.rect(screen, "black", r3_unknown_area3)
-    pygame.draw.rect(screen, "black", r3_unknown_area4)
-    pygame.draw.rect(screen, "black", r3_unknown_area5)
-    pygame.draw.rect(screen, "black", r3_unknown_area6)
-    pygame.draw.rect(screen, "black", r3_unknown_area7)
-    pygame.draw.rect(screen, "black", r3_unknown_area8)
-    pygame.draw.rect(screen, "black", r3_unknown_area9)
-    pygame.draw.rect(screen, "black", r3_unknown_area10)
+    for i in range(0, 10):
+        pygame.draw.rect(screen, "black", r3_unknown_row[i])
 
-    pygame.draw.rect(screen, "black", r4_unknown_area1)
-    pygame.draw.rect(screen, "black", r4_unknown_area2)
-    pygame.draw.rect(screen, "black", r4_unknown_area3)
-    pygame.draw.rect(screen, "black", r4_unknown_area4)
-    pygame.draw.rect(screen, "black", r4_unknown_area5)
-    pygame.draw.rect(screen, "black", r4_unknown_area6)
-    pygame.draw.rect(screen, "black", r4_unknown_area7)
-    pygame.draw.rect(screen, "black", r4_unknown_area8)
-    pygame.draw.rect(screen, "black", r4_unknown_area9)
-    pygame.draw.rect(screen, "black", r4_unknown_area10)
+    for i in range(0, 10):
+        pygame.draw.rect(screen, "black", r4_unknown_row[i])
 
-    if Player.item_1_added == False:
-        draw_item_1 = pygame.draw.rect(screen, "purple", item_1)
+    for i in range(0, 10):
+        pygame.draw.rect(screen, "black", r5_unknown_row[i])
 
-    for i in room:
-        draw_room = pygame.draw.rect(screen, "blue", i)
+    for i in range(0, 10):
+        pygame.draw.rect(screen, "black", r6_unknown_row[i])
+
+    for i in range(0, 10):
+        pygame.draw.rect(screen, "black", r7_unknown_row[i])
+
+    for i in range(0, 10):
+        pygame.draw.rect(screen, "black", r8_unknown_row[i])
+
+    for i in range(0, 10):
+        pygame.draw.rect(screen, "black", r9_unknown_row[i])
+
+    for i in range(0, 10):
+        pygame.draw.rect(screen, "black", r10_unknown_row[i])
+
+    pygame.draw.rect(screen, (100, 255, 100), player)
+
+    draw_item_1 = pygame.draw.rect(screen, "red", item_1)
+    draw_item_2 = pygame.draw.rect(screen, "red", item_2)
+    draw_item_3 = pygame.draw.rect(screen, "red", item_3)
+    draw_item_4 = pygame.draw.rect(screen, "red", item_4)
 
     pygame.display.flip()
     dt = clock.tick(30) / 1000
